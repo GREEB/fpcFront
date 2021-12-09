@@ -93,6 +93,7 @@ export default {
     // this.material.blendDst = OneMinusSrcAlphaFactor
     this.points = new Points(this.geometry, this.material)
     this.scene.add(this.points)
+    // FIXME: Fix BoxHelper updates fine but wrong position
     this.box = new BoxHelper(this.points, 0xFFFFFF)
     this.box.visible = true
     this.scene.add(this.box)
@@ -163,7 +164,7 @@ export default {
     this.animate()
   },
   methods: {
-    addPoint2Store () {
+    addPoint2Store () { // TODO: update client data only every x seconds or something else completely
       // this.$store.commit('points/increment')
     },
     addPoint (xyz, heightRGB, terrainRGB) {
@@ -203,6 +204,8 @@ export default {
       this.points.geometry.attributes.position.needsUpdate = true // required after the first render
       this.points.geometry.attributes.color.needsUpdate = true
       this.geometry.computeBoundingBox()
+      // const centroid = this.geometry.boundingBox.getCenter()
+      // centroid.applyMatrix4(this.box.matrixWorld)
       this.box.update()
     // camera.position.z = xyz[0];
     // camera.position.x = xyz[1];
